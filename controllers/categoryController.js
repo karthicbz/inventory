@@ -1,7 +1,13 @@
 const express = require("express");
 const asynchandler = require("express-async-handler");
+const Category = require("../models/category");
 
-exports.category_list = asynchandler((req, res, next) => {});
+exports.category_list = asynchandler(async (req, res, next) => {
+  const allCategories = await Category.find().sort({ name: 1 }).exec();
+  res.render("category_list", {
+    categories:allCategories,
+  });
+});
 
 exports.category_create_get = asynchandler((req, res, next) => {});
 
