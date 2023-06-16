@@ -4,7 +4,7 @@ const Category = require("../models/category");
 
 exports.category_list = asynchandler(async (req, res, next) => {
   const allCategories = await Category.find().sort({ name: 1 }).exec();
-  res.render("category_list", {
+  res.render("home", {
     categories:allCategories,
   });
 });
