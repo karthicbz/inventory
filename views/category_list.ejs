@@ -13,16 +13,20 @@
             <%- include('partials/navbar') %>
         </div>
         <div class="col s12 m8 l9">
-            <h2>Total Categories: <%=categories.length%></h2>
-            <form action="inventory/category/create" method="POST" class="col s12">
-                <div class="row">
-                    <div class="input-field col s10">
-                        <input placeholder="Category Name" id="first_name" type="text" class="validate" name="categoryname">
-                        <label for="first_name">Add new category</label>
-                    </div>
-                </div>
-                <button class="btn waves-effect" type="submit">Submit</button>
-            </form>
+            <h2><%=title%></h2>
+            <ul>
+                <li><a href="#">Update Category name</a></li>
+                <li><a href="/category/delete">Delete Category</a></li>
+            </ul>
+            <%if(childCategories.length > 0){%>
+            <div class="collection">
+                <%childCategories.map(category=>{%>
+                <a href="<%=category.url%>" class="collection-item"><%=category.name%></a>
+                <%})%>
+            </div>
+            <%}else{%>
+            <p>No Child Categories found</p> 
+            <%}%>
         </div>
     </div>
 </body>

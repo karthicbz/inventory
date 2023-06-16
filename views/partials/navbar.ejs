@@ -1,15 +1,6 @@
 <div class="row">
-    <h5>All Categories</h5>
-    <form action="" method="POST" class="col s12">
-        <div class="row">
-            <div class="input-field col s10">
-                <input placeholder="Category Name" id="first_name" type="text" class="validate">
-                <label for="first_name">Add new category</label>
-            </div>
-        </div>
-        <button class="btn waves-effect" type="submit">Submit</button>
-    </form>
-    <div class="collection">
+    <div class="collection with-header">
+        <li class="collection-header" style="list-style: none;"><h4><a href="/">Home</a></h4></li>
         <%categories.map(category=>{%>
         <a href="<%=category.url%>" class="collection-item"><%=category.name%></a>
         <%})%>
