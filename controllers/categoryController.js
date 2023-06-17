@@ -43,6 +43,7 @@ exports.category_delete_post = asynchandler(async (req, res, next) => {
       childCategories:childCategories, 
       categories:allCategory, 
       currentCategory:thisCategory,
+      childCategoryName:'',
       error: 'Delete Child Categories below before attempting to delete Category',
     });
   }else{
@@ -77,8 +78,8 @@ exports.category_update_post = [
       if (categoryExists) {
         res.redirect(categoryExists.url);
       } else {
-        await Category.findByIdAndUpdate(req.params.id, updatedCategory, {});
-        res.redirect("/inventory");
+        const updatedValue = await Category.findByIdAndUpdate(req.params.id, updatedCategory, {});
+        res.redirect(updatedValue.url);
       }
     }
   }),

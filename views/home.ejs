@@ -22,12 +22,12 @@
         <% } %>
           <div class="row">
             <div class="input-field col s10">
-              <input placeholder="Category Name" id="first_name" type="text"
+              <input placeholder="Category Name" type="text"
               class="validate" name="categoryname" 
               <% if(category === '') {%>
                 value = '' 
               <%}else{%> 
-                value=<%=category%> 
+                value="<%=category%>"
               <%}%> />
               <label for="first_name">Add new category</label>
               <% if(errors) { %>

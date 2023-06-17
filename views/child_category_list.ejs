@@ -31,27 +31,27 @@
                 </a>
             </li>
             <li>
-                <a href="category/update/<%=currentCategory._id%>" class="btn waves-effect"
-                >Update Category name</a
+                <a href="childcategory/update/<%=currentCategory._id%>" class="btn waves-effect"
+                >Update child-category name</a
                 >
             </li>
             <li>
                 <form
-                action="/inventory/category/delete/<%=currentCategory._id%>"
+                action="/inventory/category/childcategory/delete/<%=currentCategory._id%>"
                 method="post"
                 >
                 <input type="hidden" name="deleteCategory" />
-                <button type="submit" class="btn wave-effect" style="background-color: rgb(245, 86, 86);">Delete Category</button>
+                <button type="submit" class="btn wave-effect" style="background-color: rgb(245, 86, 86);">Delete Child-Category</button>
                 </form>
             </li>
         </ul>
         <% if(error !== ''){ %>
-          <p style="background-color: rgb(240,255,240); color: rgb(3, 71, 60); padding: 8px 0 8px 8px;"><%=error%></p>
+          <p style="background-color: rgb(240,255,240); color: rgb(3, 71, 60); padding: 8px 0 8px 8px; margin-top: 8px;"><%=error%></p>
         <%}%>
         <%if(childCategories.length > 0){%>
-        <div class="row">
+        <div class="row" style="margin-top: 1rem;">
           <%childCategories.map(category=>{%>
-            <div class="col s12 m4">
+            <div class="col s12 m2">
                 <div class="card small teal lighten-5 text-darken-2">
                     <div class="card-content white-text">
                     <span class="card-title" style="color: black;"><%=title%></span>
