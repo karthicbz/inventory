@@ -13,6 +13,8 @@ route.get("/category/update/:id", categoryController.category_update_get);
 
 route.post("/category/update/:id", categoryController.category_update_post);
 
+route.post("/:id", childCategoryController.child_category_create_post);
+
 route.get("/:id", childCategoryController.category_list);
 
 module.exports = route;

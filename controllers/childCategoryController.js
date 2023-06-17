@@ -17,3 +17,10 @@ exports.category_list = asynchandler(async (req, res, next) => {
     error: '',
   });
 });
+
+exports.child_category_create_post = asynchandler(async (req, res, next)=>{
+  const parentCategory = await Category.findById(req.params.id).exec();
+  const newCategory = new ChildCategories({name:req.body.childcategory, category:parentCategory});
+  await newCategory.save();
+  res.redirect(parentCategory.url);
+})

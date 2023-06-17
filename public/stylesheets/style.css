@@ -5,3 +5,9 @@ body {
 a {
   color: #00B7FF;
 }
+
+.action-buttons{
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
