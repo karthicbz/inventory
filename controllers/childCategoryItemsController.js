@@ -17,3 +17,15 @@ exports.child_category_itemlist_get = asynchandler(async (req, res, next)=>{
         error: '',
     });
 })
+
+exports.child_category_item_create = asynchandler(async (req, res, next)=>{
+    const childCategory = await ChildCategory.findById(req.params.id).exec();
+    const item = new Items({
+        name: req.body.itemname,
+        quantity: req.body.itemquantity,
+        price: req.body.itemprice,
+        childOf: req.params.id,
+    });
+    await item.save();
+    res.redirect(childCategory.url);
+})

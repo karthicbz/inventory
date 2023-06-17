@@ -9,7 +9,7 @@ exports.category_list = asynchandler(async (req, res, next) => {
   const [allCategory, thisCategory, childCategories] = await Promise.all([
     Category.find().sort({ name: 1 }).exec(),
     Category.findById(req.params.id).exec(),
-    ChildCategories.find({ category: req.params.id }).exec(),
+    ChildCategories.find({ category: req.params.id }).sort({name:1}).exec(),
   ]);
   res.render("category_list", {
     title: thisCategory.name,

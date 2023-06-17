@@ -52,7 +52,7 @@
         <div class="row" style="margin-top: 1rem;">
           <%childCategories.map(category=>{%>
             <div class="col s12 m2">
-                <div class="card small teal lighten-4 text-darken-1">
+                <div class="card small teal lighten-5 text-darken-1">
                     <div class="card-content white-text">
                     <span class="card-title" style="color: black;"><%=title%></span>
                     <ul style="color: black; 
@@ -66,8 +66,8 @@
                     </ul>
                     </div>
                     <div class="card-action">
-                    <a href="#">Update</a>
-                    <a href="#">Delete</a>
+                    <a href="#" class="teal-text">Update</a>
+                    <a href="#" class="red-text">Delete</a>
                     </div>
                 </div>
             </div>
@@ -94,10 +94,14 @@
               <label for="itemprice">Item Price</label>
               <input type="text" name="itemprice" id="itemprice" placeholder="Price">
             </div>
+            <div class="modal-footer">
+              <button type="submit" class="modal-close waves-effect waves-green btn-flat">Submit</button>
+              <button id="bottomSheetCancel" class="modal-close waves-effect waves-red btn-flat">Cancel</button>
+            </div>
           </form>
         </div>
         <div class="modal-footer">
-          <a href="" class="modal-close waves-effect waves-green btn-flat">Add</a>
+          <a href="" class="modal-close waves-effect waves-green btn-flat" type="submit">Add</a>
           <a href="" class="modal-close waves-effect waves-red btn-flat" id="bottomSheetCancel">Cancel</a>
         </div>
       </div>
@@ -116,7 +120,8 @@
       modalBottomSheet.setAttribute('style', 'bottom: 0px; z-index: 11');
     })
 
-    cancelButton.addEventListener('click', ()=>{
+    cancelButton.addEventListener('click', (e)=>{
+      e.preventDefault();
       overlay.setAttribute('style', 'opacity: 0; z-index: -1;');
       modalBottomSheet.setAttribute('style', 'bottom: -100%;');
     })
