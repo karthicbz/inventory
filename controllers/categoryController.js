@@ -1,6 +1,7 @@
 const express = require("express");
 const asynchandler = require("express-async-handler");
 const Category = require("../models/category");
+const ChildCategory = require('../models/child_category');
 const {body, validationResult} = require('express-validator');
 
 exports.home = asynchandler(async (req, res, next) => {
@@ -32,8 +33,22 @@ exports.category_delete_get = asynchandler((req, res, next) => {
 });
 
 exports.category_delete_post = asynchandler(async (req, res, next) => {
+  const childCategories = await ChildCategory.find({category:req.params.id}).exec();
+  const thisCategory = await Category.findById(req.params.id).exec();
+  const allCategory = await Category.find().sort({name:1}).exec();
+
+  if(childCategories.length > 0){
+    res.render('category_list', {
+      title:thisCategory.name, 
+      childCategories:childCategories, 
+      categories:allCategory, 
+      currentCategory:thisCategory,
+      error: 'Delete Child Categories below before attempting to delete Category',
+    });
+  }else{
   await Category.findByIdAndRemove(req.params.id).exec();
   res.redirect("/inventory");
+  }
 });
 
 exports.category_update_get = asynchandler(async (req, res, next) => {

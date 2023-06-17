@@ -14,5 +14,6 @@ exports.category_list = asynchandler(async (req, res, next) => {
     childCategories: childCategories,
     categories: allCategory,
     currentCategory: thisCategory,
+    error: '',
   });
 });
