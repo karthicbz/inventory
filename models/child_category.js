@@ -7,7 +7,7 @@ const ChildCategorySchema = new schema({
 });
 
 ChildCategorySchema.virtual('url').get(function(){
-  return(`/categories/${this._id}`);
+  return(`/inventory/category/${this._id}`);
 })
 
 module.exports = mongoose.model("ChildCategory", ChildCategorySchema);
