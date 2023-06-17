@@ -4,7 +4,7 @@ const ChildCategory = require('../models/child_category');
 const Items = require('../models/items');
 
 exports.child_category_itemlist_get = asynchandler(async (req, res, next)=>{
-    const childCategory = await ChildCategory.findById(req.params.id).exec();
+    const childCategory = await ChildCategory.findById(req.params.id).populate('category').exec();
     const items = await Items.find({childOf:req.params.id}).exec();
     const allCategory = await Category.find().exec();
 

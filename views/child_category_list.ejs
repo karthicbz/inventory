@@ -8,50 +8,74 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
     />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="/stylesheets/style.css">
     <title>Document</title>
   </head>
   <body>
     <div class="row">
       <div class="col s12 m4 l2"><%- include('partials/navbar') %></div>
-      <div class="col s12 m8 l9">
+      <div class="col s12 m8 l10">
+        <nav>
+            <div class="nav-wrapper">
+                <div class="col s12">
+                    <a href="<%=currentCategory.category.url%>" class="breadcrumb"><%=currentCategory.category.name%></a>
+                    <a href="<%=currentCategory.url%>" class="breadcrumb"><%=currentCategory.name%></a>
+                </div>
+            </div>
+        </nav>
         <h2><%=title%></h2>
         <ul class="action-buttons">
-          <li>
-            <a href="category/update/<%=currentCategory._id%>" class="btn waves-effect"
-              >Update Category name</a
-            >
-          </li>
-          <li>
-            <form
-              action="/inventory/category/delete/<%=currentCategory._id%>"
-              method="post"
-            >
-              <input type="hidden" name="deleteCategory" />
-              <button type="submit" class="btn wave-effect" style="background-color: rgb(245, 86, 86);">Delete Category</button>
-            </form>
-          </li>
+            <li>
+                <a href="#" class="btn wave-effect">
+                    Create new Item
+                </a>
+            </li>
+            <li>
+                <a href="category/update/<%=currentCategory._id%>" class="btn waves-effect"
+                >Update Category name</a
+                >
+            </li>
+            <li>
+                <form
+                action="/inventory/category/delete/<%=currentCategory._id%>"
+                method="post"
+                >
+                <input type="hidden" name="deleteCategory" />
+                <button type="submit" class="btn wave-effect" style="background-color: rgb(245, 86, 86);">Delete Category</button>
+                </form>
+            </li>
         </ul>
         <% if(error !== ''){ %>
           <p style="background-color: rgb(240,255,240); color: rgb(3, 71, 60); padding: 8px 0 8px 8px;"><%=error%></p>
         <%}%>
-        <form action="" method='post' class="col s12">
-          <div class="row">
-            <div class="input-field col s6">
-              <input placeholder="Child Category name" id="childCategoryCreator" type="text" class="validate" name="childcategory">
-              <label for="childCategoryCreator">Create Child Category</label>  
-            </div>
-            <button type="submit" class="btn waves-effect">Submit</button>
-          </div>
-        </form>
         <%if(childCategories.length > 0){%>
-        <div class="collection">
+        <div class="row">
           <%childCategories.map(category=>{%>
-          <a href="<%=category.url%>" class="collection-item"><%=category.name%></a>
-          <%})%>
+            <div class="col s12 m4">
+                <div class="card small teal lighten-5 text-darken-2">
+                    <div class="card-content white-text">
+                    <span class="card-title" style="color: black;"><%=title%></span>
+                    <ul style="color: black; 
+                    font-size: 1.1rem; 
+                    display: flex; 
+                    flex-direction: column; 
+                    gap: 1rem;">
+                        <li>Name: <%=category.name%></li>
+                        <li>Quantity: <%=category.quantity%> Nos</li>
+                        <li>Price: <%=category.price%></li>
+                    </ul>
+                    </div>
+                    <div class="card-action">
+                    <a href="#">Update</a>
+                    <a href="#">Delete</a>
+                    </div>
+                </div>
+            </div>
+        <%})%>
         </div>
         <%}else{%>
-        <p>No Child Categories found</p>
+        <p>No Items found</p>
         <%}%>
       </div>
     </div>

@@ -24,3 +24,5 @@ exports.child_category_create_post = asynchandler(async (req, res, next)=>{
   await newCategory.save();
   res.redirect(parentCategory.url);
 })
+
+
