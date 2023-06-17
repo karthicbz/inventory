@@ -26,7 +26,7 @@
         <h2><%=title%></h2>
         <ul class="action-buttons">
             <li>
-                <a href="#" class="btn wave-effect">
+                <a href="#modal1" class="btn wave-effect modal-trigger">
                     Create new Item
                 </a>
             </li>
@@ -52,7 +52,7 @@
         <div class="row" style="margin-top: 1rem;">
           <%childCategories.map(category=>{%>
             <div class="col s12 m2">
-                <div class="card small teal lighten-5 text-darken-2">
+                <div class="card small teal lighten-4 text-darken-1">
                     <div class="card-content white-text">
                     <span class="card-title" style="color: black;"><%=title%></span>
                     <ul style="color: black; 
@@ -77,6 +77,48 @@
         <p>No Items found</p>
         <%}%>
       </div>
+
+      <div id="modal1" class="modal bottom-sheet">
+        <div class="modal-content">
+          <h4>New Item</h4>
+          <form action="" method="post">
+            <div class="row">
+              <label for="itemname">New Item name</label>
+              <input type="text" name="itemname" id="itemname" placeholder="Item name">
+            </div>
+            <div class="row">
+              <label for="itemquantity">Item Quantity</label>
+              <input type="number" name="itemquantity" id="itemquantity" placeholder="Quantity">
+            </div>
+            <div class="row">
+              <label for="itemprice">Item Price</label>
+              <input type="text" name="itemprice" id="itemprice" placeholder="Price">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <a href="" class="modal-close waves-effect waves-green btn-flat">Add</a>
+          <a href="" class="modal-close waves-effect waves-red btn-flat" id="bottomSheetCancel">Cancel</a>
+        </div>
+      </div>
+      <div id="overlay">
+      </div>
     </div>
   </body>
+  <script>
+    const modalTriggerButton = document.querySelector('.modal-trigger');
+    const modalBottomSheet = document.getElementById('modal1');
+    const overlay = document.getElementById('overlay');
+    const cancelButton = document.getElementById('bottomSheetCancel');
+
+    modalTriggerButton.addEventListener('click', ()=>{
+      overlay.setAttribute('style', 'opacity: 1; z-index: 10;');
+      modalBottomSheet.setAttribute('style', 'bottom: 0px; z-index: 11');
+    })
+
+    cancelButton.addEventListener('click', ()=>{
+      overlay.setAttribute('style', 'opacity: 0; z-index: -1;');
+      modalBottomSheet.setAttribute('style', 'bottom: -100%;');
+    })
+  </script>
 </html>
