@@ -4,12 +4,38 @@ const Category = require("../models/category");
 const ChildCategory = require('../models/child_category');
 const {body, validationResult} = require('express-validator');
 
+function getEmptyCategories(allCategories, allChildCategories){
+  let categories = [];
+  let emptyCategories = [];
+  let found = 0;
+  allCategories.forEach(category=>{
+    allChildCategories.forEach(childCategory=>{
+      if(category._id.toString() === childCategory.category._id.toString()){
+        found += 1;
+      }
+    })
+    categories = [...categories, {category:category.name, value: found}];
+    found = 0;
+  })
+  emptyCategories = categories.filter(category=>{
+    if(category.value === 0){
+      return category;
+    }
+  })
+  // console.log(emptyCategories);
+  return emptyCategories;
+}
+
 exports.home = asynchandler(async (req, res, next) => {
   const allCategories = await Category.find().sort({ name: 1 }).exec();
+  const allChildCategories = await ChildCategory.find().populate('category').exec();
+  
+  // console.log(categories);
   res.render("home", {
     categories: allCategories,
     category: "",
     errors: "",
+    emptyCategories: getEmptyCategories(allCategories, allChildCategories),
   });
 });
 
@@ -55,7 +81,14 @@ exports.category_delete_post = asynchandler(async (req, res, next) => {
 exports.category_update_get = asynchandler(async (req, res, next) => {
   const categoryName = await Category.findById(req.params.id).exec();
   const allCategories = await Category.find().sort({ name: 1 }).exec();
-  res.render("home", { categories: allCategories, category: categoryName.name, errors:"" });
+  const allChildCategories = await ChildCategory.find().populate('category').exec();
+
+  res.render("home", { 
+    categories: allCategories, 
+    category: categoryName.name, 
+    errors:"",  
+    emptyCategories: getEmptyCategories(allCategories, allChildCategories)
+  });
 });
 
 exports.category_update_post = [
@@ -68,9 +101,16 @@ exports.category_update_post = [
     const errors = validationResult(req);
     const allCategories = await Category.find().sort({ name: 1 }).exec();
     const updatedCategory = new Category({name:req.body.categoryname, _id:req.params.id});
+    const allChildCategories = await ChildCategory.find().populate('category').exec();
+
 
     if(!errors.isEmpty()){
-      res.render('home', {categories:allCategories, category:req.body.categoryname, errors:errors.array()});
+      res.render('home', {
+        categories:allCategories, 
+        category:req.body.categoryname, 
+        errors:errors.array(), 
+        emptyCategories: getEmptyCategories(allCategories, allChildCategories)
+      });
     }else{
       const categoryExists = await Category.findOne({
         name: req.body.categoryname,
