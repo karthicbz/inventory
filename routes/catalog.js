@@ -24,6 +24,10 @@ route.get('/category/childcategory/update/:id', childCategoryController.child_ca
 
 route.post('/category/childcategory/update/:id', childCategoryController.child_category_update_post);
 
+route.post('/item/update/:id', childCategoryItemsController.child_category_item_update);
+
+route.post('/item/delete/:id', childCategoryItemsController.child_category_item_delete);
+
 route.post("/:id", childCategoryController.child_category_create_post);
 
 route.get("/:id", childCategoryController.category_list);

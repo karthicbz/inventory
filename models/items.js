@@ -8,4 +8,8 @@ const ItemsSchema = new schema({
   childOf: { type: schema.Types.ObjectId, ref: "ChildCategory" },
 });
 
+ItemsSchema.virtual('id').get(function(){
+  return(this._id);
+})
+
 module.exports = mongoose.model("Items", ItemsSchema);

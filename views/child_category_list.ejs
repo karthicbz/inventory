@@ -52,21 +52,21 @@
         <div class="row" style="margin-top: 1rem;">
           <%childCategories.map(category=>{%>
             <div class="col s12 m2">
-                <div class="card small teal lighten-5 text-darken-1">
+                <div class="card small teal lighten-5 text-darken-1" id="<%=category.id%>">
                     <div class="card-content white-text">
-                    <span class="card-title" style="color: black;"><%=title%></span>
-                    <ul style="color: black; 
-                    font-size: 1.1rem; 
-                    display: flex; 
-                    flex-direction: column; 
-                    gap: 1rem;">
-                        <li>Name: <%=category.name%></li>
-                        <li>Quantity: <%=category.quantity%> Nos</li>
-                        <li>Price: <%=category.price%></li>
-                    </ul>
+                      <span class="card-title" style="color: black;"><%=title%></span>
+                      <ul style="color: black; 
+                      font-size: 1.1rem; 
+                      display: flex; 
+                      flex-direction: column; 
+                      gap: 1rem;">
+                          <li data-value="<%=category.name%>">Name: <%=category.name%></li>
+                          <li data-value="<%=category.quantity%>">Quantity: <%=category.quantity%> Nos</li>
+                          <li data-value="<%=category.price%>">Price: <%=category.price%></li>
+                      </ul>
                     </div>
                     <div class="card-action">
-                    <a href="#" class="teal-text">Update</a>
+                    <a href="#modal1" class="teal-text" id="updateitem">Update</a>
                     <a href="#" class="red-text">Delete</a>
                     </div>
                 </div>
@@ -81,21 +81,21 @@
       <div id="modal1" class="modal bottom-sheet">
         <div class="modal-content">
           <h4>New Item</h4>
-          <form action="" method="post">
+          <form action="" method="post" class="form-bottom-sheet">
             <div class="row">
               <label for="itemname">New Item name</label>
-              <input type="text" name="itemname" id="itemname" placeholder="Item name">
+              <input type="text" name="itemname" id="itemname" placeholder="Item name" required>
             </div>
             <div class="row">
               <label for="itemquantity">Item Quantity</label>
-              <input type="number" name="itemquantity" id="itemquantity" placeholder="Quantity">
+              <input type="number" name="itemquantity" id="itemquantity" placeholder="Quantity" min="1">
             </div>
             <div class="row">
               <label for="itemprice">Item Price</label>
               <input type="text" name="itemprice" id="itemprice" placeholder="Price">
             </div>
             <div class="modal-footer">
-              <button type="submit" class="modal-close waves-effect waves-green btn-flat">Submit</button>
+              <button id="bottomSheetSubmit" type="submit" class="modal-close waves-effect waves-green btn-flat">Submit</button>
               <button id="bottomSheetCancel" class="modal-close waves-effect waves-red btn-flat">Cancel</button>
             </div>
           </form>
@@ -114,6 +114,13 @@
     const modalBottomSheet = document.getElementById('modal1');
     const overlay = document.getElementById('overlay');
     const cancelButton = document.getElementById('bottomSheetCancel');
+    const updateButton = document.getElementById('updateitem');
+    const allCards = document.querySelectorAll('.card');
+    // const cardList = document.querySelector('.row');
+    const nameField = document.getElementById('itemname');
+    const quantityField = document.getElementById('itemquantity');
+    const priceField = document.getElementById('itemprice');
+    const bottomSheetForm = document.querySelector('.form-bottom-sheet');
 
     modalTriggerButton.addEventListener('click', ()=>{
       overlay.setAttribute('style', 'opacity: 1; z-index: 10;');
@@ -122,8 +129,41 @@
 
     cancelButton.addEventListener('click', (e)=>{
       e.preventDefault();
+      quantityField.value = '';
+      priceField.value = '';
+      nameField.value = '';
       overlay.setAttribute('style', 'opacity: 0; z-index: -1;');
       modalBottomSheet.setAttribute('style', 'bottom: -100%;');
+    })
+
+    allCards.forEach(card=>{
+      card.addEventListener('click', (e)=>{
+        if(e.target.textContent === 'Update'){
+          bottomSheetForm.action = `/inventory/item/update/${card.id}`;
+          // console.log(bottomSheetForm);
+          const content = e.target.parentNode.parentNode.childNodes[1];
+          const ul = content.querySelectorAll('ul>li');
+          nameField.value = ul[0].dataset.value;
+          quantityField.value = ul[1].dataset.value;
+          priceField.value = ul[2].dataset.value;
+          overlay.setAttribute('style', 'opacity: 1; z-index: 10;');
+          modalBottomSheet.setAttribute('style', 'bottom: 0px; z-index: 11');
+        }
+
+        if(e.target.textContent === 'Delete'){
+          bottomSheetForm.action = `/inventory/item/delete/${card.id}`;
+          bottomSheetForm.submit();
+        }
+      })
+    })
+
+    bottomSheetSubmit.addEventListener('click', (e)=>{
+      e.preventDefault();
+      if(parseInt(priceField.value)/1 === parseInt(priceField.value)){
+        bottomSheetForm.submit();
+      }else{
+        alert('Price must not be empty and not text')
+      }
     })
   </script>
 </html>
