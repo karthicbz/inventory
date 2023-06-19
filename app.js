@@ -8,9 +8,22 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 const catalogRouter = require("./routes/catalog");
 const compression = require('compression');
+const helmet = require('helmet');
 
 var app = express();
 // let categories = [];
+const RateLimit = require('express-rate-limit');
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000,
+  max: 20,
+});
+
+app.use(limiter);
+app.use(helmet.contentSecurityPolicy({
+  directives:{
+    "script-src":["'self'", "cdnjs.cloudflare.com"],
+  },
+}));
 
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
