@@ -27,8 +27,7 @@ app.use(helmet.contentSecurityPolicy({
 
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
-const mongoDB =
-  "mongodb+srv://admin:admin123@cluster0.frh5rdd.mongodb.net/inventory?retryWrites=true&w=majority";
+const mongoDB = process.env.MONGODB_URI;
 
 main().catch((err) => console.log(err));
 async function main() {
