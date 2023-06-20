@@ -21,13 +21,13 @@ const limiter = RateLimit({
 app.use(limiter);
 app.use(helmet.contentSecurityPolicy({
   directives:{
-    "script-src":["'self'", "cdnjs.cloudflare.com"],
+    "script-src":["'self'", "cdnjs.cloudflare.com", "fonts.googleapis.com", "'unsafe-inline'"],
   },
 }));
 
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
-const mongoDB = process.env.MONGODB_URI;
+const mongoDB = process.env.MONGODB_URI || "mongodb+srv://admin:admin123@cluster0.frh5rdd.mongodb.net/inventory?retryWrites=true&w=majority";
 
 main().catch((err) => console.log(err));
 async function main() {
