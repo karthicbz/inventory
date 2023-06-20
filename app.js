@@ -3,31 +3,39 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+require("dotenv").config();
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 const catalogRouter = require("./routes/catalog");
-const compression = require('compression');
-const helmet = require('helmet');
+const compression = require("compression");
+const helmet = require("helmet");
 
 var app = express();
 // let categories = [];
-const RateLimit = require('express-rate-limit');
+const RateLimit = require("express-rate-limit");
 const limiter = RateLimit({
   windowMs: 1 * 60 * 1000,
   max: 20,
 });
 
 app.use(limiter);
-app.use(helmet.contentSecurityPolicy({
-  directives:{
-    "script-src":["'self'", "cdnjs.cloudflare.com", "fonts.googleapis.com", "'unsafe-inline'"],
-  },
-}));
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      "script-src": [
+        "'self'",
+        "cdnjs.cloudflare.com",
+        "fonts.googleapis.com",
+        "'unsafe-inline'",
+      ],
+    },
+  })
+);
 
 const mongoose = require("mongoose");
 mongoose.set("strictQuery", false);
-const mongoDB = process.env.MONGODB_URI || "mongodb+srv://admin:admin123@cluster0.frh5rdd.mongodb.net/inventory?retryWrites=true&w=majority";
+const mongoDB = process.env.MONGODB_URI;
 
 main().catch((err) => console.log(err));
 async function main() {
