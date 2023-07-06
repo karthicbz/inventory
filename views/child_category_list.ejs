@@ -62,6 +62,7 @@
                       gap: 1rem;">
                           <li data-value="<%=category.name%>">Name: <%=category.name%></li>
                           <li data-value="<%=category.quantity%>">Quantity: <%=category.quantity%> Nos</li>
+                          <li data-valud="<%=category.hsn%>">HSN: <%=category.hsn%></li>
                           <li data-value="<%=category.price%>">Price: <%=category.price%></li>
                       </ul>
                     </div>
@@ -88,15 +89,15 @@
             </div>
             <div class="row">
               <label for="itemquantity">Item Quantity</label>
-              <input type="number" name="itemquantity" id="itemquantity" placeholder="Quantity" min="1">
+              <input type="number" name="itemquantity" id="itemquantity" placeholder="Quantity" min="1" required>
             </div>
             <div class="row">
               <label for="hsncode">HSN Code</label>
-              <input type="text" name="hsncode" id="hsncode" placeholder="HSN Code">
+              <input type="text" name="hsncode" id="hsncode" placeholder="HSN Code" min="6" required>
             </div>
             <div class="row">
               <label for="itemprice">Item Price</label>
-              <input type="text" name="itemprice" id="itemprice" placeholder="Price">
+              <input type="text" name="itemprice" id="itemprice" placeholder="Price" required>
             </div>
             <div class="modal-footer">
               <button id="bottomSheetSubmit" type="submit" class="modal-close waves-effect waves-green btn-flat">Submit</button>
@@ -119,6 +120,7 @@
     // const cardList = document.querySelector('.row');
     const nameField = document.getElementById('itemname');
     const quantityField = document.getElementById('itemquantity');
+    const hsnField = document.getElementById('hsncode');
     const priceField = document.getElementById('itemprice');
     const bottomSheetForm = document.querySelector('.form-bottom-sheet');
 
@@ -145,7 +147,8 @@
           const ul = content.querySelectorAll('ul>li');
           nameField.value = ul[0].dataset.value;
           quantityField.value = ul[1].dataset.value;
-          priceField.value = ul[2].dataset.value;
+          hsnField.value = ul[2].dataset.value;
+          priceField.value = ul[3].dataset.value;
           overlay.setAttribute('style', 'opacity: 1; z-index: 10;');
           modalBottomSheet.setAttribute('style', 'bottom: 0px; z-index: 11');
         }
@@ -159,10 +162,15 @@
 
     bottomSheetSubmit.addEventListener('click', (e)=>{
       e.preventDefault();
-      if(parseInt(priceField.value)/1 === parseInt(priceField.value)){
-        bottomSheetForm.submit();
+      if(nameField.value !== '' && nameField.value.length <4){
+        alert('Item name must be 3 or above characters length');
+      }else if(hsnField.value.length <6 || hsnField.value.length > 6){
+        alert('HSN code must be 6 digit length');
+      }
+      else if(parseInt(priceField.value)/1 !== parseInt(priceField.value)){
+        alert('Price must not be empty and not text');
       }else{
-        alert('Price must not be empty and not text')
+        bottomSheetForm.submit();
       }
     })
   </script>

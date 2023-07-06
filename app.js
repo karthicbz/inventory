@@ -19,7 +19,7 @@ const limiter = RateLimit({
   max: 20,
 });
 
-app.use(limiter);
+// app.use(limiter);
 app.use(
   helmet.contentSecurityPolicy({
     directives: {

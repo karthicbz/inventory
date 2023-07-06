@@ -25,6 +25,7 @@ exports.child_category_item_create = asynchandler(async (req, res, next)=>{
         name: req.body.itemname,
         quantity: req.body.itemquantity,
         price: req.body.itemprice,
+        hsn: req.body.hsncode,
         childOf: req.params.id,
     });
     await item.save();
@@ -38,6 +39,7 @@ exports.child_category_item_update = asynchandler(async (req, res, next)=>{
         name: req.body.itemname,
         quantity: req.body.itemquantity,
         price: req.body.itemprice,
+        hsn: req.body.hsncode,
         childOf: currentItem.childOf._id,
         _id: req.params.id,
     });
