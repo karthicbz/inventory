@@ -55,3 +55,9 @@ exports.child_category_item_delete = asynchandler(async (req, res, next)=>{
     await Items.findByIdAndRemove(req.params.id);
     res.redirect(currentItem.childOf.url);
 });
+
+exports.child_category_items_get = asynchandler(async(req, res)=>{
+    const {text} = req.query;
+    const allItems = await Items.find({name:{$regex:text, $options:"i"}});
+    res.json(allItems);
+})

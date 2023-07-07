@@ -28,6 +28,8 @@ route.post('/item/update/:id', childCategoryItemsController.child_category_item_
 
 route.post('/item/delete/:id', childCategoryItemsController.child_category_item_delete);
 
+route.get('/item/search/', childCategoryItemsController.child_category_items_get);
+
 route.post("/:id", childCategoryController.child_category_create_post);
 
 route.get("/:id", childCategoryController.category_list);
