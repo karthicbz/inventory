@@ -10,6 +10,7 @@ var usersRouter = require("./routes/users");
 const catalogRouter = require("./routes/catalog");
 const compression = require("compression");
 const helmet = require("helmet");
+const cors = require('cors');
 
 var app = express();
 // let categories = [];
@@ -46,6 +47,7 @@ async function main() {
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
+app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
